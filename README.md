@@ -9,25 +9,9 @@ The split grammar that I will use splits and replaces shapes into other shapes, 
 
 
 ```markdown
-Syntax highlighted code block
-
-Start -> split(Y) {0.7: Ground | N: Floor | 1: Top} [minY: 3]
-Floor -> split(Y) {0.75: Terminal Floor | N: Floor} [minY: 1.3]
-Floor -> split(Y) {N: Terminal Floor} [maxY: 1.3]
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+- Start -> split(Y) {0.7: Ground | N: Floor | 1: Top} [minY: 3]
+- Floor -> split(Y) {0.75: Terminal Floor | N: Floor} [minY: 1.3]
+- Floor -> split(Y) {N: Terminal Floor} [maxY: 1.3]
 ```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
