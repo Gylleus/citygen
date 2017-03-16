@@ -1,12 +1,9 @@
-## Introduction
+# Introduction
 
-You can use the [editor on GitHub](https://github.com/Gylleus/citygen/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This page will be used as documentation of method process and results for my thesis of generating virtual urban environments. I will implement a split grammar based procedural generator and attempt an approach at an inverse procedural one. I will be using Unity3D as an environment for the project.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Split Grammar
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
 Syntax highlighted code block
