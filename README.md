@@ -4,9 +4,16 @@ This page will be used as documentation of method process and results for my the
 
 ### Split Grammar
 
+The split grammar that I will use splits and replaces shapes into other shapes, often smaller pieces. How and when such a split is performed is defined by rules. A simple example of three rules would be:
+
+
 
 ```markdown
 Syntax highlighted code block
+
+Start -> split(Y) {0.7: Ground | N: Floor | 1: Top} [minY: 3]
+Floor -> split(Y) {0.75: Terminal Floor | N: Floor} [minY: 1.3]
+Floor -> split(Y) {N: Terminal Floor} [maxY: 1.3]
 
 # Header 1
 ## Header 2
