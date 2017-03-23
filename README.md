@@ -16,7 +16,7 @@ The split grammar that I will use splits and replaces shapes into other shapes, 
 
 Here the start component would be the initial shape that the algorithm receives. If it has a height of at least 3 (Y >= 3) the first rule is valid and can be applied, splitting the initial shape into a ground, floor and top component. The floor component has additional rules which allows it to be split recursively until its Y value is less than 1.3, at which point no more shapes can be split. This can also be described as all regions having reached a terminal state. 
 
-The rule takes as input on shape as input to the left and inside the brackets the shapes that it will be split into are defined. The "|" sign seperates different shapes. The numerical value in front of the shape name defines the size of it. It can also be defined as 'N' meaning that the shape is flexible and can be changed in size to better fit the size of the input shape.
+The rule takes as input on shape as input to the left and inside the brackets the shapes that it will be split into are defined. The vertical line seperates different shapes. The numerical value in front of the shape name defines the size of it. It can also be defined as 'N' meaning that the shape is flexible and can be changed in size to better fit the size of the input shape.
 
 This simple example of rules were inspired by https://cs.uwaterloo.ca/research/tr/2009/CS-2009-23A.pdf.
 
