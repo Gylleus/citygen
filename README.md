@@ -36,3 +36,4 @@ When the above rule is to be executed the grammar derivator will look at the cur
 
 ### Initial results
 ![Grey Building](/images/grey-building.png)
+Format: ![Alt Text](url)
