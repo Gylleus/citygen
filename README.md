@@ -35,4 +35,4 @@ I have also defined rules that can work in different dimension, where it chooses
 When the above rule is to be executed the grammar derivator will look at the current shape to see whether its X or Z size is larger. The greater one will be chosen as the splitting axis.
 
 ### Initial results
-![Grey Building](/images/grey-building.png)
+![Grey Building](/citygen/images/grey-building.png)
