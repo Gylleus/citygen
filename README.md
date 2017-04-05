@@ -67,6 +67,8 @@ I have just started with my inverse generator as described in *Inverse Procedura
 ![Facade](/citygen/images/20170324_180808.png)
 ![Terminal Regions](/citygen/images/TerminalRegions.png)
 
+The example above is very simple where each floor and the area between them are defined as terminal regions.
+
 All rectangles of the same color need to be of the same size. This can be quite tedious to create manually and some layouts may make this very hard. As such I likely need to be able to adjust and rescale areas of the facade if rectangles of the same color have different sizes. How they do this is not described well in the paper.
 
 
