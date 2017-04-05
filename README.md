@@ -36,3 +36,35 @@ When the above rule is to be executed the grammar derivator will look at the cur
 
 ### Initial results
 ![Grey Building](/citygen/images/grey-building.png)
+
+## Rules implemented
+
+In addition to the split and repeat rule I have added a few other as well for both convenience and functionality. The first one is *decompose*. It will take a 3D shape and extract the faces of it to go down in dimensionality. Each face will originate from the initial shapes facing and then be rotated appropriately. This makes further work on them easier as their local XYZ-axes can be used instead of complicated global rules. An example is:
+
+```markdown
+- Start -> decompose(XZ) { Facade | Facade }
+```
+
+This will create a hollow box of four facades without roof or floor.
+
+The next rule is *protrude* which scales and moves a shape. This can be used to protrude pillars or balconies forward, or a window backward, from the a facade giving it depth. This creates more realistic buildings rather than merely being a textured flat surface.
+
+Example:
+
+```markdown
+- Pillar -> protrude(Z) { 0.5 }
+```
+
+I also added a rule called *replace* which will change the form of a shape. Initially shapes are assumed to be cubes but can be changed using this rule. At the moment there is only support for creating hexagons but I would like to add cylinders and prisms as well. The problem with cylinders however is that performing split rules on them is quite complicated due to the nature of its surface. It would have to be unwrapped and then wrapped again to simplify working on it, but Unity does not provide good support for this. The most likely option would be to use procedural mesh generation upon splitting and repeating, but that might be too time consuming for this project.
+
+# Inverse generation
+
+I have just started with my inverse generator as described in *Inverse Procedural Modeling of Facade Layouts*. My system will take two pictures as input. The first is the image of the facade and the second describes where the terminal regions of it are. The latter is defined by using rectangles of different colors. A rectangle will be a terminal region which are and position corresponds to the facade image. All rectangles of the same color are the same type of regions, such as all windows being blue rectangles for example. I can then use these rectangles to produce a grammar through the proposed algorithm.
+
+All rectangles of the same color need to be of the same size. This can be quite tedious to create manually and some layouts may make this very hard. As such I likely need to be able to adjust and rescale areas of the facade if rectangles of the same color have different sizes. How they do this is not described well in the paper.
+
+
+
+
+
+
