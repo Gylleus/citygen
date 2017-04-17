@@ -71,7 +71,13 @@ The example above is very simple where each floor and the area between them are 
 
 All rectangles of the same color need to be of the same size. This can be quite tedious to create manually and some layouts may make this very hard. As such I likely need to be able to adjust and rescale areas of the facade if rectangles of the same color have different sizes. How they do this is not described well in the paper.
 
+The goal is to find a description of splits, repeats, replacements and protrusions that matches the input facade. Splitting is the most trivial as we can merely look at how we can split the start area into smaller areas. This would not create a flexible layout however as there would be no repeat rules which would result in the facade not fitting well on shapes of other dimensions and sizes than the input facade. Thus we need some way to find which areas can be described by repeat rules.
 
+To identify repeat-areas we need to find areas that only consists of sub-areas that occur at least twice. If an area contains an element or region that only appears once it should not be defined by a repeat but rather a split. To find these areas I follow an approach similar to the one described in Inverse Procedural Modeling of Facade Layouts, where they start by finding all terminal regions that occur twice. I then do a total search of all possible merges of these terminal regions to find all possible areas containing only repeating elements.
+
+We then have a list of all areas that are composed of only repeating areas. During the splitting process we can then check which subareas (if any) are defined to be repeats. If there is one we can adjust the generated rules accordingly.
+
+To define the protrusion of areas we can either give the system a height map of different areas, such that for example red areas should have a Z value of 2. Areas containing the red element will then be protruded accordingly. Another variant I am considering is just to ignore the protrusion and replacement parts during rule generation and instead handle them dynamically during the building generation process, but this might lead to an unintuitive user experience.
 
 
 
