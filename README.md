@@ -79,6 +79,15 @@ We then have a list of all areas that are composed of only repeating areas. Duri
 
 To define the protrusion of areas we can either give the system a height map of different areas, such that for example red areas should have a Z value of 2. Areas containing the red element will then be protruded accordingly. Another variant I am considering is just to ignore the protrusion and replacement parts during rule generation and instead handle them dynamically during the building generation process, but this might lead to an unintuitive user experience.
 
+# Splitting
+
+When splitting we have to decide if we want to do it on the X or Y axis. To do this I chose to split on the axis that involves the most amount of splits. If splitting an area on the X axis would result in 6 subareas and the Y axis 3 subareas then the X axis will be chosen. In the ideal case one axis will have 0 splits available and we can be certain that the other axis is the right one. If the region can not be split neither on X or Y and it does not simply contain one terminal region then the facade layout will be regarded as faulty and the rule generation will terminate.
+
+To split a region into smaller regions I chose to try to draw a line across the region and see if it can be aligned with only the ends of terminal areas inside it. If it can it means we can do a clean separation from the original area and the one under the line. This process repeats until we have split the entire region into smaller parts. If no further split can be performed and there are still terminal regions not in any subregion then we will conclude that the region can not be split on this axis and return null.
+
+When we have decided our axis to split and have a list of subregions it would contain we are ready to write the split rule. First we would like to check for repeats though which we can do by searching through our list of repeated areas and see which ones match the ones in the split. If these repeated areas are next to each other they can be merged and thus described by a repeat rule. 
+
+We now have the information to write the split rule. If any repeated areas were found within the split we will name a temporary area inside the split which will contain a repeat rule. The resulting regions are then returned and added to the queue of regions to split. The rule generation will terminate when there are no more non-terminal regions to split and we will hopefully have obtained an appropriate grammar for the facade to use in our procedural generator.
 
 
 
