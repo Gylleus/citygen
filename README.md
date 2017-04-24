@@ -89,6 +89,29 @@ When we have decided our axis to split and have a list of subregions it would co
 
 We now have the information to write the split rule. If any repeated areas were found within the split we will name a temporary area inside the split which will contain a repeat rule. The resulting regions are then returned and added to the queue of regions to split. The rule generation will terminate when there are no more non-terminal regions to split and we will hopefully have obtained an appropriate grammar for the facade to use in our procedural generator.
 
+# Symmetry detection
 
+To identify symmetry and define repeat rules I perform a search during each split. Since we have already decided to split on an axis we have a list of regions that are perfectly aligned on either X or Y. The goal is to find an area that consists merely of two or more identical subregions within the list of splits.
 
+The algorithm for finding these areas starts with the list of splits. We then check for duplicate regions in the split as a region would have to appear at least twice for it to be considered for repetition. The algorithm appears in pseudocode below.
 
+```markdown
+- RR = empty
+- DR = all split elements that have a duplicate counterpart
+- While DR is not empty
+-   try to merge each duplicate region with a repeated split element
+-   remove all regions that no longer have duplicates from DR
+-   attempt to merge together these duplicate areas
+-   add such merged areas to RR
+-   remove all regions that no longer have duplicates from DR
+
+- Make sure that regions in RR do not overlap with each other
+- return RR
+```
+The repeated areas that we find will be the merges of identical regions as that was our definition of a repeating area. The regions found are then return and used when writing the split rule and potential repeat rules. The final step to ensure that regions are not overlapping is important to make sure that each split region only belongs to one repeat area. For example, a sequence of ABABABA can be defined as a repeat area in two ways. (A)(BABABA) or (ABABAB)(A). If we do not remove overlapping regions these two will create conflicting logic when attempting check which repeat area a specific split region belongs to. Thus we have to choose one of them, which I do arbitrarily by removing all regions that overlaps the first sequence I find for each split region.
+
+# The generator working
+
+After a lot of tweaking the above algorithm finally works. As input a facade image and facade layout (image of terminal regions) need to be provided as stated above. The result will be a grammar that works with the previously implemented procedural generator.
+
+An example:
