@@ -121,6 +121,7 @@ As an example the facade layout provided above provides the following procedural
 ![Terminal Regions](/citygen/images/TerminalRegions.png)
 
 ```markdown
+- Start -> decompose(XZ) {TestBuilding | TestBuilding}
 - TestBuilding -> split(Y) {1.481481: TestBuilding1 | 3.981481N: TestBuilding2 | 0.3518519: TestBuilding3 | 1.148148: TestBuilding4}
 - TestBuilding2 -> repeat(Y) {0.2962963: TestBuilding5 | 1.018518: TestBuilding6}
 ```
@@ -129,3 +130,25 @@ Quite simple and also makes sense. The first split rule creates 4 new regions: t
 The names given by the algortihm is quite difficult for a human to read as they provide no information about the region, such as if it is a window or a wall nor does it tell outright which one is a terminal region. The first mentioned would be very hard to adjust as the algorithm would need to create contextual information from the material or structure of the facade. Alternatively user input could be provided for each terminal region to give them appropriate names. Showing which areas are terminal could be easily adjusted in the algorithm though if it would be of desire. But the grammar is mainly intended for the eyes of the computer and thus do not really need informative names unless for debugging and curiosity.
 
 Another example of a more advanced facade layout and its result:
+
+
+![Terminal Regions](/citygen/images/TerminalRegionsAdvanced2.png)
+
+```markdown
+- Start -> decompose(XZ) {TestBuilding | TestBuilding}
+- TestBuilding -> split(Y) {6.546296: TestBuilding1 | 0.4351852: TestBuilding2}
+- TestBuilding1 -> split(X) {3.105159: TestBuilding3 | 0.4166667: TestBuilding4 | 2.847222: TestBuilding5 | 0.4166667: TestBuilding4 | 3.164683: TestBuilding3}
+- TestBuilding3 -> split(Y) {1.722222: TestBuilding6 | 4.083333N: TestBuilding7 | 0.7222222: TestBuilding8}
+- TestBuilding7 -> repeat(Y) {0.9444445: TestBuilding8 | 0.4351852: TestBuilding9}
+- TestBuilding5 -> split(Y) {1.722222: TestBuilding6 | 4.083333N: TestBuilding10 | 0.7222222: TestBuilding11}
+- TestBuilding10 -> repeat(Y) {0.9444445: TestBuilding11 | 0.4351852: TestBuilding9}
+- TestBuilding8 -> split(X) {2.777778N: TestBuilding12 | 0.3174603: TestBuilding13}
+- TestBuilding12 -> repeat(X) {0.7043651: TestBuilding13 | 0.7440476: TestBuilding14}
+- TestBuilding11 -> split(X) {2.728175N: TestBuilding15 | 0.109127: TestBuilding13}
+- TestBuilding15 -> repeat(X) {0.1289683: TestBuilding13 | 0.7440476: TestBuilding14}
+```
+In this case the grammar gets more complex and tricky to wrap your ahead around, mostly due to the vague names of each region. But if you take the time to consider each step you will find that it describes the facade quite nicely.
+
+The resulting building:
+
+
