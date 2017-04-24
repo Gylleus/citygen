@@ -79,6 +79,8 @@ We then have a list of all areas that are composed of only repeating areas. Duri
 
 To define the protrusion of areas we can either give the system a height map of different areas, such that for example red areas should have a Z value of 2. Areas containing the red element will then be protruded accordingly. Another variant I am considering is just to ignore the protrusion and replacement parts during rule generation and instead handle them dynamically during the building generation process, but this might lead to an unintuitive user experience.
 
+It is worth noting that all grammar needs to start with a decompose rule into the starting shape for the facade to go down in dimensionality from 3D to 2D.
+
 # Splitting
 
 When splitting we have to decide if we want to do it on the X or Y axis. To do this I chose to split on the axis that involves the most amount of splits. If splitting an area on the X axis would result in 6 subareas and the Y axis 3 subareas then the X axis will be chosen. In the ideal case one axis will have 0 splits available and we can be certain that the other axis is the right one. If the region can not be split neither on X or Y and it does not simply contain one terminal region then the facade layout will be regarded as faulty and the rule generation will terminate.
@@ -114,4 +116,16 @@ The repeated areas that we find will be the merges of identical regions as that 
 
 After a lot of tweaking the above algorithm finally works. As input a facade image and facade layout (image of terminal regions) need to be provided as stated above. The result will be a grammar that works with the previously implemented procedural generator.
 
-An example:
+As an example the facade layout provided above provides the following procedural description:
+
+![Terminal Regions](/citygen/images/TerminalRegions.png)
+
+```markdown
+- TestBuilding -> split(Y) {1.481481: TestBuilding1 | 3.981481N: TestBuilding2 | 0.3518519: TestBuilding3 | 1.148148: TestBuilding4}
+- TestBuilding2 -> repeat(Y) {0.2962963: TestBuilding5 | 1.018518: TestBuilding6}
+```
+Quite simple and also makes sense. The first split rule creates 4 new regions: the green, red, yellow and the middle area containing purple and blue elements. The last mentioned is then defined by a repeat rule of blue and purple. This makes the building stretchable on the Y axis as dragging it out will allow for more repeated areas as the purple and blue area is defined as relative.
+
+The names given by the algortihm is quite difficult for a human to read as they provide no information about the region, such as if it is a window or a wall nor does it tell outright which one is a terminal region. The first mentioned would be very hard to adjust as the algorithm would need to create contextual information from the material or structure of the facade. Alternatively user input could be provided for each terminal region to give them appropriate names. Showing which areas are terminal could be easily adjusted in the algorithm though if it would be of desire. But the grammar is mainly intended for the eyes of the computer and thus do not really need informative names unless for debugging and curiosity.
+
+Another example of a more advanced facade layout and its result:
