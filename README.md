@@ -152,6 +152,6 @@ In this case the grammar gets more complex and tricky to wrap your ahead around,
 The resulting building:
 
 
-![Inverse Result](/citygen/images/InverseResult.png)
+![Inverse Result](/citygen/images/inverseResult.png)
 
 Do not that there are as of yet no protrude or replace rules making the surface completely flat. Furthmore the input facade image is not optimal as it contains a car on the bottom level. A better facade image would be desired and lead to a better result.
