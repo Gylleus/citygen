@@ -155,3 +155,21 @@ The resulting building:
 ![Inverse Result](/citygen/images/inverseResult.png)
 
 Do not that there are as of yet no protrude or replace rules making the surface completely flat. Furthmore the input facade image is not optimal as it contains a car on the bottom level. A better facade image would be desired and lead to a better result.
+
+# Street Generation
+
+The street generation starts with big rectangles that will resemble blocks. These will be cut up into the starting shapes for buildings. A texture of asphalt is added as well as a few props. An example of initial results below.
+
+![Initial Street](/citygen/images/Street.png)
+
+# Difficulties
+
+```markdown
+- Taking good pictures without cars and trees
+- Deciding when repeat rules should be invoked
+- Handling a cylinder when splitting
+- Realism, mostly due to details such as signs, different cars, damages, dirt
+- Perspective correction (related to difficulty of capturing image)
+- Texture extraction of fitting areas for materials
+- Easy way to define depth 
+```
