@@ -173,4 +173,5 @@ The street generation starts with big rectangles that will resemble blocks. Thes
 - Texture extraction of fitting areas for materials
 - Easy way to define depth 
 - Generating roofs
+- Get correct material area, easier to fix manually
 ```
