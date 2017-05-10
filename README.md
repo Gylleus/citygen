@@ -172,4 +172,5 @@ The street generation starts with big rectangles that will resemble blocks. Thes
 - Perspective correction (related to difficulty of capturing image)
 - Texture extraction of fitting areas for materials
 - Easy way to define depth 
+- Generating roofs
 ```
