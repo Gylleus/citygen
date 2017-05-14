@@ -170,6 +170,7 @@ The street generation starts with big rectangles that will resemble blocks. Thes
 - Handling a cylinder when splitting
 - Realism, mostly due to details such as signs, different cars, damages, dirt
 - Perspective correction (related to difficulty of capturing image)
+- Perspective correction is imperfect, leading to harder facade layout images
 - Texture extraction of fitting areas for materials
 - Easy way to define depth 
 - Generating roofs
