@@ -175,3 +175,8 @@ The street generation starts with big rectangles that will resemble blocks. Thes
 - Generating roofs
 - Get correct material area, easier to fix manually
 ```
+# Possible improvements
+
+```markdown
+- Other way of input rather than colors to define material. Redundant to give multiple colors for same material type to ease generation.
+```
