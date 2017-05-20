@@ -180,4 +180,5 @@ The street generation starts with big rectangles that will resemble blocks. Thes
 
 ```markdown
 - Other way of input rather than colors to define material. Redundant to give multiple colors for same material type to ease generation.
+- Grouping regions when splitting to make better splitting
 ```
