@@ -1,12 +1,10 @@
 # Introduction
 
-This page will be used as documentation of method process and results for my thesis of generating virtual urban environments. I will implement a split grammar based procedural generator and attempt an approach at an inverse procedural one. I will be using Unity3D as an environment for the project.
+This page will be used as documentation of the method process and results for my thesis of generating virtual urban environments. I will implement a split grammar based procedural generator and attempt an approach at an inverse procedural one. I will use Unity3D as the environment for the project.
 
 ### Split Grammar
 
-The split grammar that I will use splits and replaces shapes into other shapes, often smaller pieces. How and when such a split is performed is defined by rules. A simple example of three rules would be:
-
-
+The split grammar that I will use is able to split and replace one set shapes into a new set of shapes, often smaller in individual size. How and when such a split is performed is defined by rules. Here is a simple example of three rules:
 
 ```markdown
 - Start -> split(Y) {0.7: Ground | N: Floors | 1: Top} [minY: 3]
@@ -14,19 +12,19 @@ The split grammar that I will use splits and replaces shapes into other shapes, 
 - Floors -> split(Y) {N: Floor} [maxY: 1.3]
 ```
 
-Here the start component would be the initial shape that the algorithm receives. If it has a height of at least 3 (Y >= 3) the first rule is valid and can be applied, splitting the initial shape into a ground, floor and top component. The floor component has additional rules which allows it to be split recursively until its Y value is less than 1.3, at which point no more shapes can be split. This can also be described as all regions having reached a terminal state. 
+In the above example the start component would be the initial shape that the algorithm receives. If it has a height of at least 3 (Y >= 3) the first rule is valid and can be applied - splitting the initial shape into a ground, floor and top component. The floor component has additional rules which allows it to be split recursively until its Y value is less than 1.3, at which point no more shapes can be split. This can also be described as all regions having reached a terminal state.
 
-The rule takes as input on shape as input to the left and inside the brackets the shapes that it will be split into are defined. The vertical line seperates different shapes. The numerical value in front of the shape name defines the size of it. It can also be defined as 'N' meaning that the shape is flexible and can be changed in size to better fit the size of the input shape.
+The shape in the left size of the rule defines the input shape while the shapes contained inside the curly brackets define the resulting shapes. The vertical line seperates different shapes. The numerical value in front of the shape name defines the size of it. It can also be defined as `N` marking that the shape is flexible and can be changed in size to better fit the size of the input shape. A maximum of one shape can have a size of `N` for each rule.
 
 This simple example of rules were inspired by https://cs.uwaterloo.ca/research/tr/2009/CS-2009-23A.pdf.
 
-We can avoid using such recursive rules by defining a repeat rule that will continue creating shapes to fill out the input shapes space. The floor rules described above can thus be defined as:
+We can avoid using such recursive rules by defining a repeat rule that will continue to create shapes to fill out the input shapes space. The floor rules described above can thus be defined as:
 
 
 ```markdown
 - Floors -> repeat(Y) {0.75N: Floor}
 ```
-I have also defined rules that can work in different dimension, where it chooses the dimensions largest in size of the input shape.
+I have also defined rules that can work in different dimensions, where it chooses the dimensions largest in size of the input shape.
 
 ```markdown
 - Floor -> repeat(XZ) {0.25N: Facade | 0.25: WindowArea | 0.25N: Facade}
@@ -39,7 +37,7 @@ When the above rule is to be executed the grammar derivator will look at the cur
 
 ## Rules implemented
 
-In addition to the split and repeat rule I have added a few other as well for both convenience and functionality. The first one is *decompose*. It will take a 3D shape and extract the faces of it to go down in dimensionality. Each face will originate from the initial shapes facing and then be rotated appropriately. This makes further work on them easier as their local XYZ-axes can be used instead of complicated global rules. An example is:
+In addition to the split and repeat rule I have added a few others - both for convenience and functionality. The first one is *decompose*. It will take as input a 3D shape and extract the faces of it to reduce dimensionality. Each face will originate from the initial shape's facing direction and then be rotated appropriately. This makes further work on them easier as their local XYZ-axes can be used instead of complicated global rules. An example is:
 
 ```markdown
 - Start -> decompose(XZ) { Facade | Facade }
@@ -47,7 +45,7 @@ In addition to the split and repeat rule I have added a few other as well for bo
 
 This will create a hollow box of four facades without roof or floor.
 
-The next rule is *protrude* which scales and moves a shape. This can be used to protrude pillars or balconies forward, or a window backward, from the a facade giving it depth. This creates more realistic buildings rather than merely being a textured flat surface.
+The next rule is *protrude* which scales and moves a shape. This can be used to protrude pillars or balconies forward or a window backward from the facade giving it depth. This creates more realistic buildings rather than merely being a textured flat surface.
 
 Example:
 
@@ -55,7 +53,7 @@ Example:
 - Pillar -> protrude(Z) { 0.5 }
 ```
 
-I also added a rule called *replace* which will change the form of a shape. Initially shapes are assumed to be cubes but can be changed using this rule. At the moment there is only support for creating hexagons but I would like to add cylinders and prisms as well. The problem with cylinders however is that performing split rules on them is quite complicated due to the nature of its surface. It would have to be unwrapped and then wrapped again to simplify working on it, but Unity does not provide good support for this. The most likely option would be to use procedural mesh generation upon splitting and repeating, but that might be too time consuming for this project.
+I also added a rule called *replace* which will change the form of a shape. Initially shapes are assumed to be cubes but can be changed using this rule. Currently there is only support for creating hexagons but I would like to add cylinders and prisms as well. One issue with cylinders is that performing split rules on them is quite complicated due to the nature of its surface. It would have to be unwrapped and then wrapped again to simplify working on it, but Unity does not provide good support for this. The most likely option would be to use procedural mesh generation upon splitting and repeating, but that would be going outside the scope of this project.
 
 
 ![Hexagon Example](/citygen/images/hexagonShape.png)
@@ -85,7 +83,7 @@ It is worth noting that all grammar needs to start with a decompose rule into th
 
 When splitting we have to decide if we want to do it on the X or Y axis. To do this I chose to split on the axis that involves the most amount of splits. If splitting an area on the X axis would result in 6 subareas and the Y axis 3 subareas then the X axis will be chosen. In the ideal case one axis will have 0 splits available and we can be certain that the other axis is the right one. If the region can not be split neither on X or Y and it does not simply contain one terminal region then the facade layout will be regarded as faulty and the rule generation will terminate.
 
-To split a region into smaller regions I chose to try to draw a line across the region and see if it can be aligned with only the ends of terminal areas inside it. If it can it means we can do a clean separation from the original area and the one under the line. This process repeats until we have split the entire region into smaller parts. If no further split can be performed and there are still terminal regions not in any subregion then we will conclude that the region can not be split on this axis and return null.
+To split a region into smaller regions I chose to attempt drawing a line across the region to see if it can be aligned with only the ends of terminal areas inside it. If it can it means we can do a clean separation from the original area and the one under the line. This process repeats until we have split the entire region into smaller parts. If no further split can be performed and there are still terminal regions not in any subregion then we will conclude that the region can not be split on this axis and return null.
 
 When we have decided our axis to split and have a list of subregions it would contain we are ready to write the split rule. First we would like to check for repeats though which we can do by searching through our list of repeated areas and see which ones match the ones in the split. If these repeated areas are next to each other they can be merged and thus described by a repeat rule. 
 
